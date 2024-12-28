@@ -1,0 +1,160 @@
+/* Basic Reset & Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  background-color: #c0c0c0; /* Classic silver background */
+  color: #000;
+  margin: 0;
+  padding: 0;
+  image-rendering: pixelated; /* Keep that old-school pixelated look */
+}
+
+/* Header */
+header {
+  background-color: #000080; /* Navy-blue title bar */
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  border-bottom: 2px solid #fff;
+  text-shadow: 1px 1px 0 #000; /* Retro text shadow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* space between logo and text */
+}
+
+/* Logo in Header */
+.header-logo {
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated; 
+  border: 2px solid #808080; /* small 3D effect */
+}
+
+/* Main Container */
+main {
+  padding: 20px;
+  image-rendering: pixelated; /* Retain pixelated style */
+}
+
+/* Questionnaire Container */
+.questionnaire {
+  background-color: #ffffff;
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 2px solid #808080;
+  border-top-color: #fff;
+  border-left-color: #fff;
+}
+
+.questionnaire h2 {
+  margin-top: 0;
+}
+
+/* Labels & Inputs */
+label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+
+select,
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 5px;
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  margin-bottom: 10px;
+  border: 2px solid #fff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  background-color: #c0c0c0;
+}
+
+/* Button (Windows 95 style) */
+button {
+  font-family: "MS Sans Serif", Arial, sans-serif;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #c0c0c0;
+  border: 2px solid #fff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+button:active {
+  border: 2px solid #808080;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+  background-color: #999999;
+}
+
+/* Results Section */
+.results {
+  background-color: #ffffff;
+  padding: 15px;
+  border: 2px solid #808080;
+  border-top-color: #fff;
+  border-left-color: #fff;
+}
+
+.results h2 {
+  margin-top: 0;
+}
+
+/* Individual Racket Container */
+.racket {
+  border: 2px solid #808080;
+  border-top-color: #fff;
+  border-left-color: #fff;
+  padding: 10px;
+  margin: 10px 0;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.racket:hover {
+  background-color: #f0f0f0;
+  border-color: #000;
+}
+
+/* Racket Header (image + title side by side) */
+.racket-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Racket Image */
+.racket-image {
+  width: 60px;
+  height: 60px;
+  border: 2px solid #808080;
+  border-top-color: #fff;
+  border-left-color: #fff;
+  background-color: #c0c0c0;
+  image-rendering: pixelated; 
+}
+
+/* Example Star Rating or Icons */
+.racket-rating {
+  margin-top: 8px;
+  font-size: 1.2rem; /* slightly larger stars */
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #000080;
+  color: #fff;
+  font-weight: bold;
+  border-top: 2px solid #fff;
+  image-rendering: pixelated;
+}

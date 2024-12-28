@@ -1,36 +1,26 @@
-import React, { useState } from "react";
-import "./index.css"; // Assuming you have your CSS in App.css
-import Logo1 from './images/logo.gif'
-import Logo2 from './images/jannik-sinner-sinner.gif'
+import React, { useState, useEffect } from "react";
+import "./index.css";
+import Logo1 from './images/logo.gif';
+import Logo2 from './images/jannik-sinner-sinner.gif';
 
 function App() {
   const [rackets, setRackets] = useState([]);
 
-  // Example array with images
-  const racketsData = [
-    {
-      name: "Racket A",
-      description: "A lightweight racket for beginners.",
-      price: "$120",
-      imageUrl: "/images/racketA.png",
-    },
-    {
-      name: "Racket B",
-      description: "Great control for intermediate players.",
-      price: "$200",
-      imageUrl: "/images/racketB.png",
-    },
-    {
-      name: "Racket C",
-      description: "Perfect for all-court professionals.",
-      price: "$250",
-      imageUrl: "/images/racketC.png",
-    },
-  ];
+  // Fetch from your Express API when the component mounts
+  useEffect(() => {
+    fetch("http://localhost:5001/racket")
+      .then(response => response.json())
+      .then(data => {
+        console.log("Fetched data:", data);
+        setRackets(data);
+      })
+      .catch(error => console.error("Error fetching rackets:", error));
+  }, []); // empty dependency array => run once on component mount
 
   const findRackets = () => {
-    // For now, just set the entire array as "recommended"
-    setRackets(racketsData);
+    // At the moment, your "Find Rackets" button does nothing special 
+    // because the fetch call is in useEffect. 
+    // But you can implement additional logic here later if needed.
   };
 
   return (
@@ -108,18 +98,9 @@ function App() {
                 <option value="Head">Head</option>
                 <option value="Prince">Prince</option>
                 <option value="Yonex">Yonex</option>
-                <option value="Yonex">Other</option>
+                <option value="Other">Other</option>
               </select>
             </label>
-
-            {/* 7. Existing Injuries */}
-            {/* <label>
-              Do you have any injuries or concerns (e.g., tennis elbow)?
-              <input
-                type="text"
-                placeholder="e.g., shoulder pain, tennis elbow"
-              />
-            </label> */}
 
             {/* 8. Frequency of Play */}
             <label>
@@ -131,7 +112,6 @@ function App() {
               </select>
             </label>
 
-            {/* SUBMIT BUTTON */}
             <button type="button" onClick={findRackets}>
               Find Rackets
             </button>
@@ -145,20 +125,22 @@ function App() {
             <div key={index} className="racket">
               <div className="racket-header">
                 {/* Racket Image */}
+                {/* If you don't have images in the database, you can default or skip imageUrl */}
                 <img
-                  src={racket.imageUrl}
-                  alt={racket.name}
+                  src="/images/racketA.png"
+                  alt={racket.model}
                   className="racket-image"
                 />
-                <h3>{racket.name}</h3>
+                <h3>{racket.brand} {racket.model}</h3>
               </div>
-              <p>{racket.description}</p>
+              <p>Weight: {racket.weight} grams</p>
+              <p>Head Size: {racket.head_size} sq. in</p>
+              <p>String Pattern: {racket.string_pattern}</p>
               <p>
-                <strong>{racket.price}</strong>
+                <strong>${racket.price}</strong>
               </p>
-              {/* Example: Star Ratings or Icons */}
               <div className="racket-rating">
-                <span>⭐⭐⭐⭐☆</span> {/* or use icons */}
+                <span>⭐⭐⭐⭐☆</span>
               </div>
             </div>
           ))}
@@ -172,3 +154,5 @@ function App() {
 }
 
 export default App;
+
+

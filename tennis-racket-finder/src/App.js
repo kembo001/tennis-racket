@@ -19,7 +19,7 @@ function App() {
 
   // On mount, fetch *all* rackets
   useEffect(() => {
-    fetch("http://localhost:8080/rackets")
+    fetch("https://tennis-racket-recommender-mn49.vercel.app/rackets")
       .then((res) => res.json())
       .then((data) => {
         setAllRackets(data);

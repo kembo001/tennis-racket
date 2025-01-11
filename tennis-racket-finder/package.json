@@ -1,6 +1,6 @@
 {
   "name": "tennis-racket-finder",
-  "homepage": "https://kembo001.github.io/tennis-racket-recommender",
+  "homepage": "https://tennis-racket-recommender-mn49.vercel.app/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

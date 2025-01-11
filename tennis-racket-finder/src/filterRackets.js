@@ -15,17 +15,20 @@ const filterRackets = (rackets, filters) => {
     };
   
     return rackets.filter((racket) => {
-      const matchesPlayStyle =
-        !playStyle || racket.play_style.toLowerCase().includes(playStyle.toLowerCase());
+  
+        const matchesPlayStyle =
+        !playStyle ||
+        (playStyle === "allCourt" && racket.play_style === "All Court Player") ||
+        (playStyle === "baseline" && racket.play_style === "Baseline Player") ||
+        (playStyle === "serveVolley" && racket.play_style === "Serve and Volley");
   
       const matchesExperience =
         !experience ||
         (experience === "Beginner" && racket.player_level === "Intermediate") ||
         (experience === "Intermediate" && racket.player_level === "Intermediate") ||
-        (experience === "Advanced" && racket.player_level === "Advanced") ||
+        (experience === "Advanced" && racket.player_level === "Advanced")||
         (experience === "Pro" && racket.player_level === "Advanced");
   
-      // Updated to check budgetRanges[budget] exists
       const matchesBudget =
         !budget ||
         (

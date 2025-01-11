@@ -133,12 +133,7 @@ button:active {
 
 /* Racket Image */
 .racket-image {
-  width: 60px;
-  height: 60px;
-  border: 2px solid #808080;
-  border-top-color: #fff;
-  border-left-color: #fff;
-  background-color: #c0c0c0;
+  width: 500px;
   image-rendering: pixelated; 
 }
 
@@ -168,4 +163,26 @@ footer {
 
 h2{
   text-align: center;
+}
+
+
+
+a h3, a p{
+  color: #000;
+  text-decoration: none !important;
+}
+
+
+.results a{
+  text-decoration: none;
+}
+
+
+.playerlink{
+  color: #000080;
+  text-decoration: underline !important;
+}
+
+.playerlink:hover{
+  color: #000;
 }

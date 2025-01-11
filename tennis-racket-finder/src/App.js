@@ -22,8 +22,9 @@ function App() {
     fetch("http://localhost:8080/rackets")
       .then((res) => res.json())
       .then((data) => {
-        setAllRackets(data);     // store the entire list
-        setFilteredRackets(data); // initially, show them all or you can default to top 3
+        setAllRackets(data);
+        // ⬇️ DON'T setFilteredRackets here ⬇️
+        // setFilteredRackets(data);
       })
       .catch((error) => console.error("Error fetching rackets:", error));
   }, []);
@@ -72,7 +73,7 @@ function App() {
                 <option value="">-- Select --</option>
                 <option value="baseline">Baseline Player</option>
                 <option value="serveVolley">Serve and Volley</option>
-                <option value="allCourt">All-Court Player</option>
+                <option value="allCourt">All Court Player</option>
               </select>
             </label>
 
@@ -144,17 +145,6 @@ function App() {
               </select>
             </label>
 
-            {/* 7. Frequency of Play */}
-            <label>
-              How many times per week do you play?
-              <select value={budget} onChange={(e) => setBudget(e.target.value)}>
-                <option value="">-- Select --</option>
-                <option value="1-2">1-2 times</option>
-                <option value="3-4">3-4 times</option>
-                <option value="5+">5 or more times</option>
-              </select>
-            </label>
-
             <button type="button" onClick={findRackets}>
               Find Rackets
             </button>
@@ -168,11 +158,12 @@ function App() {
 
         <div className="results">
           {filteredRackets.map((racket) => (
-            <div key={racket.id} className="racket">
-              <img
-                src="/images/racketA.png"
-                alt={racket.model}
-                className="racket-image"
+<a href="">
+<div key={racket.id} className="racket">
+              <img 
+                src={`/tennis-racket-recommender/images/rackets/${racket.img}`} 
+                alt={racket.model} 
+                className="racket-image" 
               />
               <h3>
                 {racket.brand} {racket.model}
@@ -182,9 +173,15 @@ function App() {
               <p>String Pattern: {racket.string_pattern}</p>
               <p>{racket.raiting}</p>
               <p>
+  Players that use this racket: <a className="playerlink" href={racket.player_Links} target="_blank" rel="noopener noreferrer">
+    <strong>{racket.player}</strong>
+  </a>
+</p>
+              <p>
                 <strong>${racket.price}</strong>
               </p>
             </div>
+</a>
           ))}
         </div>
       </main>

@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/tennis-racket-recommender/static/css/main.97a8ab18.css",
-    "main.js": "/tennis-racket-recommender/static/js/main.216e26de.js",
+    "main.js": "/tennis-racket-recommender/static/js/main.3d0c39fc.js",
     "static/media/logo.gif": "/tennis-racket-recommender/static/media/logo.75197a8947c6c0c0365a.gif",
     "static/media/jannik-sinner-sinner.gif": "/tennis-racket-recommender/static/media/jannik-sinner-sinner.efaaa1afd43b7bf999a5.gif",
     "index.html": "/tennis-racket-recommender/index.html",
     "main.97a8ab18.css.map": "/tennis-racket-recommender/static/css/main.97a8ab18.css.map",
-    "main.216e26de.js.map": "/tennis-racket-recommender/static/js/main.216e26de.js.map"
+    "main.3d0c39fc.js.map": "/tennis-racket-recommender/static/js/main.3d0c39fc.js.map"
   },
   "entrypoints": [
     "static/css/main.97a8ab18.css",
-    "static/js/main.216e26de.js"
+    "static/js/main.3d0c39fc.js"
   ]
 }

@@ -1,68 +1,27 @@
 const express = require('express');
-const mysql = require('mysql2');
+const rackets = require ('./rackets')
+const app = require('express') ();
 const cors = require('cors');
-const bodyParser = require('body-parser');
+const PORT = 8080;
 
-const app = express();
 app.use(cors());
-app.use(bodyParser.json());
 
-// MySQL Connection
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Kimutai8',
-    database: 'tennis_rackets'
-});
+app.get('/rackets', (req, res) => {
+    res.json(rackets);
+  });
 
-db.connect(err => {
-    if (err) {
-        console.error('Database connection failed:', err.stack);
-        return;
+  app.get('/rackets/:id', (req, res) => {
+    const { id } = req.params;
+    const racket = rackets.find(r => r.id === parseInt(id));
+    if (racket) {
+      res.json(racket);
+    } else {
+      res.status(404).send({ message: 'Racket not found' });
     }
-    console.log('Connected to MySQL database!');
-});
+  });
+  
 
-// API Endpoint to Fetch Rackets
-app.get('/racket', (req, res) => {
-    const query = `
-    SELECT 
-    Racket.id,
-    Brands.name AS brand,
-    Racket.model,
-    Racket.head_size,
-    Racket.length,
-    Racket.weight,
-    Racket.balance,
-    Racket.swing_weight,
-    Racket.beam_width,
-    Racket.composition,
-    Racket.power_level,
-    Racket.stiffness,
-    Racket.string_pattern,
-    Racket.main_skips,
-    Racket.string_tension,
-    Racket.price,
-    Racket.player_level,
-    Racket.play_style,
-    Racket.arm_friendly,
-    Racket.player
-  FROM Racket
-  JOIN Brands
-    ON Racket.brand = Brands.name;
-    `;
 
-    db.query(query, (err, results) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.json(results);
-        }
-    });
-});
-
-// Start Server
-const PORT = 5001;
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+  app.listen(PORT, () => {
+    console.log(`It's alive on http://localhost:${PORT}`);
+  });

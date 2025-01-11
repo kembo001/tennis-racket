@@ -1,31 +1,56 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import Logo1 from './images/logo.gif';
-import Logo2 from './images/jannik-sinner-sinner.gif';
+import Logo1 from "./images/logo.gif";
+import Logo2 from "./images/jannik-sinner-sinner.gif";
+import filterRackets from "./filterRackets";
 
 function App() {
-  const [rackets, setRackets] = useState([]);
+  // Keep *both* the entire list and the filtered list
+  const [allRackets, setAllRackets] = useState([]);
+  const [filteredRackets, setFilteredRackets] = useState([]);
 
-  // Fetch from your Express API when the component mounts
+  // Form state
+  const [playStyle, setPlayStyle] = useState("");
+  const [experience, setExperience] = useState("");
+  const [budget, setBudget] = useState("");
+  const [weightPreference, setWeightPreference] = useState("");
+  const [powerControl, setPowerControl] = useState("");
+  const [brand, setBrand] = useState("");
+
+  // On mount, fetch *all* rackets
   useEffect(() => {
-    fetch("http://localhost:5001/racket")
-      .then(response => response.json())
-      .then(data => {
-        console.log("Fetched data:", data);
-        setRackets(data);
+    fetch("http://localhost:8080/rackets")
+      .then((res) => res.json())
+      .then((data) => {
+        setAllRackets(data);     // store the entire list
+        setFilteredRackets(data); // initially, show them all or you can default to top 3
       })
-      .catch(error => console.error("Error fetching rackets:", error));
-  }, []); // empty dependency array => run once on component mount
+      .catch((error) => console.error("Error fetching rackets:", error));
+  }, []);
 
+  // Run filters and only show top 3
   const findRackets = () => {
-    // At the moment, your "Find Rackets" button does nothing special 
-    // because the fetch call is in useEffect. 
-    // But you can implement additional logic here later if needed.
+    const filters = {
+      playStyle,
+      experience,
+      budget,
+      weightPreference,
+      powerControl,
+      brand,
+    };
+
+    // Filter the *entire* list, not just the already-filtered list
+    const filtered = filterRackets(allRackets, filters);
+
+    // Grab first 3
+    const topThree = filtered.slice(0, 3);
+
+    // Store in `filteredRackets`
+    setFilteredRackets(topThree);
   };
 
   return (
     <div>
-      {/* HEADER */}
       <header>
         <img src={Logo1} alt="Tennis Logo" className="header-logo" />
         <h1>Tennis Racket Finder</h1>
@@ -40,7 +65,11 @@ function App() {
             {/* 1. Style of Play */}
             <label>
               What is your primary style of play?
-              <select>
+              <select
+                value={playStyle}
+                onChange={(e) => setPlayStyle(e.target.value)}
+              >
+                <option value="">-- Select --</option>
                 <option value="baseline">Baseline Player</option>
                 <option value="serveVolley">Serve and Volley</option>
                 <option value="allCourt">All-Court Player</option>
@@ -50,7 +79,11 @@ function App() {
             {/* 2. Years of Experience */}
             <label>
               How many years have you been playing?
-              <select>
+              <select
+                value={experience}
+                onChange={(e) => setExperience(e.target.value)}
+              >
+                <option value="">-- Select --</option>
                 <option value="Beginner">0 - 1</option>
                 <option value="Intermediate">2 - 5</option>
                 <option value="Advanced">5 - 10</option>
@@ -61,7 +94,8 @@ function App() {
             {/* 3. Budget */}
             <label>
               What is your budget ($)?
-              <select>
+              <select value={budget} onChange={(e) => setBudget(e.target.value)}>
+                <option value="">-- Select --</option>
                 <option value="Low">Under $50</option>
                 <option value="Medium">$50 - $150</option>
                 <option value="High">$150+</option>
@@ -71,7 +105,11 @@ function App() {
             {/* 4. Weight Preference */}
             <label>
               Do you prefer a lighter or heavier racket?
-              <select>
+              <select
+                value={weightPreference}
+                onChange={(e) => setWeightPreference(e.target.value)}
+              >
+                <option value="">-- Select --</option>
                 <option value="light">Light</option>
                 <option value="medium">Medium</option>
                 <option value="heavy">Heavy</option>
@@ -81,7 +119,11 @@ function App() {
             {/* 5. Power vs. Control */}
             <label>
               Do you prefer more power or more control?
-              <select>
+              <select
+                value={powerControl}
+                onChange={(e) => setPowerControl(e.target.value)}
+              >
+                <option value="">-- Select --</option>
                 <option value="power">Power</option>
                 <option value="control">Control</option>
                 <option value="balanced">Balanced</option>
@@ -91,7 +133,7 @@ function App() {
             {/* 6. Brand Loyalty */}
             <label>
               Are you loyal to a specific brand?
-              <select>
+              <select value={brand} onChange={(e) => setBrand(e.target.value)}>
                 <option value="">No Preference</option>
                 <option value="Wilson">Wilson</option>
                 <option value="Babolat">Babolat</option>
@@ -102,10 +144,11 @@ function App() {
               </select>
             </label>
 
-            {/* 8. Frequency of Play */}
+            {/* 7. Frequency of Play */}
             <label>
               How many times per week do you play?
-              <select>
+              <select value={budget} onChange={(e) => setBudget(e.target.value)}>
+                <option value="">-- Select --</option>
                 <option value="1-2">1-2 times</option>
                 <option value="3-4">3-4 times</option>
                 <option value="5+">5 or more times</option>
@@ -118,41 +161,38 @@ function App() {
           </form>
         </div>
 
-        {/* RESULTS SECTION */}
-        <div className="results">
+        {/* RESULTS */}
+        <div>
           <h2>Recommended Rackets</h2>
-          {rackets.map((racket, index) => (
-            <div key={index} className="racket">
-              <div className="racket-header">
-                {/* Racket Image */}
-                {/* If you don't have images in the database, you can default or skip imageUrl */}
-                <img
-                  src="/images/racketA.png"
-                  alt={racket.model}
-                  className="racket-image"
-                />
-                <h3>{racket.brand} {racket.model}</h3>
-              </div>
+        </div>
+
+        <div className="results">
+          {filteredRackets.map((racket) => (
+            <div key={racket.id} className="racket">
+              <img
+                src="/images/racketA.png"
+                alt={racket.model}
+                className="racket-image"
+              />
+              <h3>
+                {racket.brand} {racket.model}
+              </h3>
               <p>Weight: {racket.weight} grams</p>
               <p>Head Size: {racket.head_size} sq. in</p>
               <p>String Pattern: {racket.string_pattern}</p>
+              <p>{racket.raiting}</p>
               <p>
                 <strong>${racket.price}</strong>
               </p>
-              <div className="racket-rating">
-                <span>⭐⭐⭐⭐☆</span>
-              </div>
             </div>
           ))}
         </div>
       </main>
 
       {/* FOOTER */}
-      <footer>&copy; 2024 Tennis Racket Finder</footer>
+      <footer>&copy; 2025 Tennis Racket Finder</footer>
     </div>
   );
 }
 
 export default App;
-
-
